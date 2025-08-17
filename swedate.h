@@ -67,7 +67,7 @@ extern EXP32 int swe_date_conversion (
      	char c,  	/* calendar g[regorian]|j[ulian]|a[stro = greg] */
  	double *tgmt);
 
-extern EXP32 double *swe_julday(
+extern EXP32 double swe_julday(
 	int year, int month, int day, double hour, 
 	int gregflag);
 
