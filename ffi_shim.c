@@ -10,6 +10,7 @@
 
 #include "swephexp.h"   // main API
 #include "swedate.h"   // swe_julday()
+#include "swephlib.h"
 
 // ---- helpers ---------------------------------------------------------------
 
@@ -124,19 +125,20 @@ int swe_calc_ffi(double tjd_et, int ipl, int iflag, int out_ptr, int serr_ptr, i
 }
 
 // swe_houses from swephexp.h
-// int swe_houses(double tjd_ut, int32 hsys, double geolat, double geolon,
-//                double *cusps, double *ascmc);
+// int swe_houses(
+//          double tjd_ut, double geolat, double geolon, int hsys, double *cusps,
+//          double *ascmc);
 //
 // Notes:
 //  - cusps[1..12] are used; we copy the whole 13-slot array (0..12) for convenience.
 //  - ascmc[10] is fully used and copied.
 __attribute__((used))
-int swe_houses_ffi(double tjd_ut, int hsys, double geolat, double geolon,
+int swe_houses_ffi(double tjd_ut, double geolat, double geolon, int hsys, 
                    int cusps_ptr, int ascmc_ptr) {
     double cusps[13] = {0};
     double ascmc[10] = {0};
 
-    int rv = swe_houses(tjd_ut, (int32)hsys, geolat, geolon, cusps, ascmc);
+    int rv = swe_houses(tjd_ut, geolat, geolon, (int32)hsys, cusps, ascmc);
 
     write_bytes(cusps_ptr, cusps, sizeof(cusps));   // 13 * 8 = 104 bytes
     write_bytes(ascmc_ptr, ascmc, sizeof(ascmc));   // 10 * 8 = 80 bytes
@@ -162,4 +164,11 @@ int swe_houses_ex_ffi(double tjd_ut, int iflag, double geolat, double geolon, in
     write_bytes(cusps_ptr, cusps, sizeof(cusps));   // 13 * 8 = 104 bytes
     write_bytes(ascmc_ptr, ascmc, sizeof(ascmc));   // 10 * 8 = 80 bytes
     return rv;
+}
+
+//double swi_epsiln(double J, int32 iflag) 
+__attribute__((used))
+double swi_epsiln_ffi(double jd, int iflag) {
+    double xx = swi_epsiln(jd, (int32)iflag);
+    return xx;
 }
