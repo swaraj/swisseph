@@ -172,3 +172,26 @@ double swi_epsiln_ffi(double jd, int iflag) {
     double xx = swi_epsiln(jd, (int32)iflag);
     return xx;
 }
+
+/*
+ * conversion between ecliptical and equatorial polar coordinates.
+ * for users of SWISSEPH, not used by our routines.
+ * for ecl. to equ.  eps must be negative.
+ * for equ. to ecl.  eps must be positive.
+ * xpo, xpn are arrays of 3 doubles containing position.
+ * attention: input must be in degrees!
+ * 
+ * x and y are long and lat in degress if input is ecliptical and eps < 0 in degrees
+ * x and y are RA and DEC in degrees if input is equatorial and eps > 0 in degrees
+ * 
+ * Since conversion is for co-ordinates with respect to celestial sphere,
+ *  the third polar co-ordinate is always 0.
+ */
+// void CALL_CONV swe_cotrans(double *xpo, double *xpn, double eps)
+__attribute__((used))
+void swe_cotrans_ffi(double x, double y, double eps, int xpn_ptr) {
+    double xpo[3] = {x, y, 0};
+    double xpn[3] = {0};
+    swe_cotrans(xpo, xpn, eps);
+    write_bytes(xpn_ptr, xpn, sizeof(xpn));
+}
