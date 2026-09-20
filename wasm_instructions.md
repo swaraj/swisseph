@@ -1,6 +1,7 @@
 # How to Build
 
 ## CheckList
+
 * make sure you are in this project root directory
 * make sure you zig 0.13 installed
 * make sure you have `export ZIG_HOME=/Users/swyadav/Tools/zig-macos-aarch64-0.13.0` set in ~/.zprofile
@@ -10,21 +11,32 @@
 * make sure you have `export PATH=$PATH:$WABT_HOME/bin` set in ~/.zprofile
 
 ## Clear the cache, first
+
 * Do `rm -rf ~/.cache`
 * Do `rm swisseph.wasm`
 * Do `rm objdump.txt`
 
-## To build 
+## In One Line
+
+```bash
+rm -rf ~/.cache && rm swisseph.wasm && rm objdump.txt
+```
+
+## To build
+
 * `./wasm_build.sh`
 * It should build the swisseph.wasm fle in project root.
 
 ## validate
+
 * Do `wasm-objdump -x swisseph.wasm > objdump.txt` and check the Imports and Exports of the module.
 * Do `wasm2wat swisseph.wasm| grep export` to quickly check if module exports contains all functions and memory.
 
 ## Sample Output
+
 For `wasm2wat swisseph.wasm| grep export` sample output should look like
-```
+
+```text
   (export "memory" (memory 0))
   (export "_start" (func $_start))
   (export "swe_calc_ut_ffi" (func $swe_calc_ut_ffi))

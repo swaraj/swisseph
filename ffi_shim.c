@@ -195,3 +195,47 @@ void swe_cotrans_ffi(double x, double y, double eps, int xpn_ptr) {
     swe_cotrans(xpo, xpn, eps);
     write_bytes(xpn_ptr, xpn, sizeof(xpn));
 }
+
+/*
+ * For calculating rise, set and transit times of planets.
+ * tjd_ut:  time in UT
+ * ipl:     planet number, or SE_ECL_NUT for nutation, or SE_ECL_NUT for nutation
+ * starname: name of star, if ipl = SE_STAR
+ * epheflag:  ephemeris flag (SEFLG_*)
+ * rsmi:    rise, set, or transit (SE_CALC_RISE, SE_CALC_SET, SE_CALC_MTRANSIT, SE_CALC_ITRANSIT)
+ * geopos:  geographic position of observer (lon, lat, height)
+ * atpress: atmospheric pressure in mbar
+ * attemp:  atmospheric temperature in degrees Celsius
+ * tret:    pointer to double, which will receive the times of
+ *          rise, set, and transit (as per rsmi flag) in UT.
+ * serr:    pointer to error string buffer, if not NULL
+ */
+// ext_def (int32) swe_rise_trans(
+//    double tjd_ut, int32 ipl, char *starname, 
+//    int32 epheflag, int32 rsmi,
+//    double *geopos, 
+//    double atpress, double attemp,
+//    double *tret,
+//    char *serr);
+__attribute__((used))
+double swe_rise_trans_ffi(double tjd_ut, int ipl,
+     int epheflag, int rsmi,
+     double geolon, double geolat, 
+     double atpress, double attemp,
+     int serr_ptr, int serr_max_len) {
+
+    char *starname = NULL; // no star name
+    double geopos[3] = {geolon, geolat, 0};
+    double tret = 0.0;
+    char   serr_local[256];  // local buffer for the error text
+    char  *serr = serr_ptr ? serr_local : NULL;  // local buffer for the error text
+    
+    swe_rise_trans(tjd_ut, (int32)ipl, starname, (int32)epheflag, (int32)rsmi,
+            geopos, atpress, attemp, &tret, serr);
+
+    if (serr_ptr && serr) {
+        // copy error text (if any) into wasm memory, always NUL-terminated
+        write_cstr(serr_ptr, serr, serr_max_len > 0 ? serr_max_len : (int)sizeof(serr_local));
+    }
+    return tret;
+}

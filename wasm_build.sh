@@ -26,5 +26,6 @@ zig cc -target wasm32-wasi \
   -Wl,--export=swe_houses_ex_ffi \
   -Wl,--export=swi_epsiln_ffi \
   -Wl,--export=swe_cotrans_ffi \
+  -Wl,--export=swe_rise_trans_ffi \
   -o swisseph.wasm \
   $SRCS -lc -lm
