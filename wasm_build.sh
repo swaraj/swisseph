@@ -11,6 +11,7 @@ echo ${WASI_SYSROOT}
 zig cc -target wasm32-wasi \
   -Wl,--no-entry \
   -Wl,--export-memory \
+  -Wl,--export=swe_version_ffi \
   -Wl,--export=swe_set_ephe_path_ffi \
   -Wl,--export=swe_set_jpl_file_ffi \
   -Wl,--export=swe_close_ffi \

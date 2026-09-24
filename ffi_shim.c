@@ -36,6 +36,14 @@ static inline int write_cstr(int dst_ptr, const char *s, int max_len) {
 
 // ---- existing basics (from earlier messages) -------------------------------
 
+//ext_def(char *) swe_version(char *);
+__attribute__((used))
+int swe_version_ffi(int out_ptr) {
+    char   version_buf[512];  // local buffer for the error text
+    const char *version = swe_version(version_buf);
+    return write_cstr(out_ptr, version, 32);
+}
+
 __attribute__((used))
 int swe_calc_ut_ffi(double jd_ut, int ipl, int iflag, int out_ptr) {
     double xx[6];
