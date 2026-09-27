@@ -256,6 +256,7 @@ static char *infocmd3 = "\
 	   44 Lahiri VP285 (1980)\n\
 	   45 Krishnamurti VP291\n\
 	   46 Lahiri ICRC\n\
+	   47 SANATAN AYANAMSA\n\
      ephemeris specifications:\n\
         -edirPATH change the directory of the ephemeris files \n\
         -eswe   swiss ephemeris\n\

@@ -1064,10 +1064,11 @@ Const SE_SIDM_LAHIRI_1940   As Int32 = 43
 Const SE_SIDM_LAHIRI_VP285  As Int32 = 44
 Const SE_SIDM_KRISHNAMURTI_VP291  As Int32 = 45
 Const SE_SIDM_LAHIRI_ICRC   As Int32 = 46
+Const SE_SIDM_SANATAN         As Int32 = 47
 
 Const SE_SIDM_USER            As Int32 = 255
 
-Const SE_NSIDM_PREDEF         As Int32 = 47
+Const SE_NSIDM_PREDEF         As Int32 = 48
 
 Const SE_SIDBITS              As Int32 = 256
 'for projection onto ecliptic of t0

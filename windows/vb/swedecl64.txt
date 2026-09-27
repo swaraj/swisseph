@@ -1052,10 +1052,11 @@ Private Declare PtrSafe Function swe_orbit_max_min_true_distance Lib "swedll.32.
     Const SE_SIDM_LAHIRI_VP285  As Long = 44
     Const SE_SIDM_KRISHNAMURTI_VP291  As Long = 45
     Const SE_SIDM_LAHIRI_ICRC   As Long = 46
+    Const SE_SIDM_SANATAN         As Long = 47
 
     Const SE_SIDM_USER As Long = 255
 
-    Const SE_NSIDM_PREDEF As Long = 47
+    Const SE_NSIDM_PREDEF As Long = 48
 
     Const SE_SIDBITS As Long = 256
 

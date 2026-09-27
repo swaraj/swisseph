@@ -84,6 +84,38 @@ swe_set_ephe_path(NULL);
 
     }
 
+    TESTCASE(5, "Sanatan Ayanamsa remains 16 arcmin below Lahiri") {
+
+      double aya_lahiri, aya_lower, xx_lahiri[6], xx_lower[6];
+      double jd = GET_D(jd);
+      int iflag = GET_I(iflag);
+      int sid_mode_bits = GET_I(sid_mode_bits);
+      char serr[255] = "";
+
+      swe_set_sid_mode(SE_SIDM_LAHIRI | sid_mode_bits, 0, 0);
+      int rc_lahiri = swe_get_ayanamsa_ex(jd, iflag, &aya_lahiri, serr);
+
+      swe_set_sid_mode(SE_SIDM_SANATAN | sid_mode_bits, 0, 0);
+      int rc_lower = swe_get_ayanamsa_ex(jd, iflag, &aya_lower, serr);
+
+      CHECK_EQUALS_I(rc_lower, rc_lahiri);
+      double difference = swe_difdeg2n(aya_lahiri, aya_lower);
+      CHECK_EQUALS_D(difference, 16.0 / 60.0);
+
+      swe_set_sid_mode(SE_SIDM_LAHIRI | sid_mode_bits, 0, 0);
+      rc_lahiri = swe_calc(jd, SE_SUN, iflag | SEFLG_SIDEREAL,
+                           xx_lahiri, serr);
+
+      swe_set_sid_mode(SE_SIDM_SANATAN | sid_mode_bits, 0, 0);
+      rc_lower = swe_calc(jd, SE_SUN, iflag | SEFLG_SIDEREAL,
+                          xx_lower, serr);
+
+      CHECK_EQUALS_I(rc_lower, rc_lahiri);
+      difference = swe_difdeg2n(xx_lower[0], xx_lahiri[0]);
+      CHECK_EQUALS_D(difference, 16.0 / 60.0);
+
+    }
+
 
 
 END_TESTSUITE

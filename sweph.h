@@ -593,6 +593,14 @@ static const struct aya_init ayanamsa[SE_NSIDM_PREDEF] = {
       Lahiri ICRC (45) amounts to 1.1". */
 {2435553.5, 23.25 - 0.00464207, FALSE, SEMOD_PREC_NEWCOMB}, // 46: SE_SIDM_LAHIRI_ICRC
 /*************************/
+/* 47: Sanatan Ayanamsa is Lahiri minus 16 arc minutes. Its reduced initial
+      value is needed by sidereal transformations that use ayan_t0 directly.
+      For ayanamsha
+      calculation, swi_get_ayanamsa_ex() restores the Lahiri initial value
+      and applies the fixed offset to the final result. This keeps the value
+      exactly 16 arc minutes below Lahiri with every projection method. */
+{2435553.5, 23.250182778 - 0.004658035 - 16.0 / 60.0, FALSE, SEMOD_PREC_IAU_1976}, // 47: SE_SIDM_SANATAN
+/*************************/
     };
 
 #define PLAN_DATA struct plan_data

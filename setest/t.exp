@@ -7785,6 +7785,10 @@ TESTSUITE
       section-id: 3  #3.2.3
       sid_mode: 9
       name: Babylonian/Kugler 1
+    ITERATION
+      section-id: 4  #3.2.4
+      sid_mode: 47
+      name: SANATAN AYANAMSA
 TESTSUITE
   section-id: 4
   section-descr: Some computations in sidereal mode
@@ -7972,6 +7976,30 @@ TESTSUITE
       sid_mode: 1
       jd: 2446725.14374999981373548508 # 21.10.1986 15:27:00
       daya: 23.67276370562200327186
+  TESTCASE
+    section-id: 5
+    section-descr: Sanatan Ayanamsa remains 16 arcmin below Lahiri
+    precision: 1e-12
+    ITERATION
+      section-id: 1  #4.5.1
+      sid_mode_bits: 0
+      jd: 2451545.00000000000000000000 # 1.1.2000 12:00:00
+      iflag: 2 # SEFLG_SWIEPH
+    ITERATION
+      section-id: 2  #4.5.2
+      sid_mode_bits: 2048
+      jd: 2451545.00000000000000000000 # 1.1.2000 12:00:00
+      iflag: 2 # SEFLG_SWIEPH
+    ITERATION
+      section-id: 3  #4.5.3
+      sid_mode_bits: 256
+      jd: 2451545.00000000000000000000 # 1.1.2000 12:00:00
+      iflag: 2 # SEFLG_SWIEPH
+    ITERATION
+      section-id: 4  #4.5.4
+      sid_mode_bits: 512
+      jd: 2451545.00000000000000000000 # 1.1.2000 12:00:00
+      iflag: 2 # SEFLG_SWIEPH
 TESTSUITE
   section-id: 5
   section-descr: Date and time functions

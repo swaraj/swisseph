@@ -282,10 +282,11 @@ extern "C" {
 #define SE_SIDM_LAHIRI_VP285    44
 #define SE_SIDM_KRISHNAMURTI_VP291    45
 #define SE_SIDM_LAHIRI_ICRC     46
+#define SE_SIDM_SANATAN         47
 //#define SE_SIDM_MANJULA         43
 #define SE_SIDM_USER            255 /* user-defined ayanamsha, t0 is TT */
 
-#define SE_NSIDM_PREDEF	        47
+#define SE_NSIDM_PREDEF	        48
 
 /* used for swe_nod_aps(): */
 #define SE_NODBIT_MEAN		1   /* mean nodes/apsides */

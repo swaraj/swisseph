@@ -175,6 +175,7 @@ static const char *ayanamsa_name[] = {
    "Lahiri VP285",                     /* 44 SE_SIDM_LAHIRI_VP285 */
    "Krishnamurti-Senthilathiban",      /* 45 SE_SIDM_KRISHNAMURTI_VP291 */
    "Lahiri ICRC",                      /* 46 SE_SIDM_LAHIRI_ICRC */
+   "SANATAN AYANAMSA",                  /* 47 SE_SIDM_SANATAN */
    /*"Manjula/Laghumanasa",*/
 };
 static const int pnoint2jpl[]   = PNOINT2JPL;
@@ -3000,7 +3001,7 @@ static int get_aya_correction(int iflag, double *corr, char *serr) {
 
 int32 swi_get_ayanamsa_ex(double tjd_et, int32 iflag, double *daya, char *serr)
 {
-  double x[6], eps, t0, corr;
+  double x[6], eps, t0, corr, ayan_t0;
   struct sid_data *sip = &swed.sidd;
   char star[AS_MAXCH];
   int32 epheflag, otherflag, retflag, iflag_true, iflag_galequ;
@@ -3045,6 +3046,9 @@ int32 swi_get_ayanamsa_ex(double tjd_et, int32 iflag, double *daya, char *serr)
   }
   if (!swed.ayana_is_set)
     swe_set_sid_mode(SE_SIDM_FAGAN_BRADLEY, 0, 0);
+  ayan_t0 = sip->ayan_t0;
+  if (sid_mode == SE_SIDM_SANATAN)
+    ayan_t0 += 16.0 / 60.0;
   if (sid_mode == SE_SIDM_TRUE_CITRA) {
     strcpy(star, "Spica"); /* Citra */
     if ((retflag = swe_fixstar(star, tjd_et, iflag_true, x, serr)) == ERR) {
@@ -3169,7 +3173,7 @@ int32 swi_get_ayanamsa_ex(double tjd_et, int32 iflag, double *daya, char *serr)
     /* to polar */
     swi_cartpol(x, x);
     /* subtract initial value of ayanamsa */
-    x[0] = -x[0] * RADTODEG + sip->ayan_t0;
+    x[0] = -x[0] * RADTODEG + ayan_t0;
   } else {
     // Alternative method, more consistent, programmed on 15 may 2020.
     // The ayanamsha is measured on the ecliptic of date. This is more
@@ -3177,7 +3181,7 @@ int32 swi_get_ayanamsa_ex(double tjd_et, int32 iflag, double *daya, char *serr)
     // relative to the ecliptic of date.
     //
     // at t0, we have ayanamsha sip->ayan_t0
-    x[0] = swe_degnorm(sip->ayan_t0) * DEGTORAD;
+    x[0] = swe_degnorm(ayan_t0) * DEGTORAD;
     x[1] = 0; x[2] = 1;
     // get epsilon for t0
     t0 = sip->t0;
@@ -3202,6 +3206,8 @@ int32 swi_get_ayanamsa_ex(double tjd_et, int32 iflag, double *daya, char *serr)
   get_aya_correction(iflag, &corr, serr);
   /* get ayanamsa */
   *daya = swe_degnorm(x[0] - corr);
+  if (sid_mode == SE_SIDM_SANATAN)
+    *daya = swe_degnorm(*daya - 16.0 / 60.0);
   //*daya = swe_degnorm(x[0]);
   return iflag;
 }
